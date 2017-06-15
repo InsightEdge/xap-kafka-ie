@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:os-core="http://www.openspaces.org/schema/core"
+       xmlns:os-events="http://www.openspaces.org/schema/events"
+       xmlns:os-remoting="http://www.openspaces.org/schema/remoting"
+       xmlns:os-sla="http://www.openspaces.org/schema/sla"
+       xmlns:context = "http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.openspaces.org/schema/core http://www.openspaces.org/schema/9.1/core/openspaces-core.xsd
+       http://www.openspaces.org/schema/events http://www.openspaces.org/schema/9.1/events/openspaces-events.xsd
+       http://www.openspaces.org/schema/remoting http://www.openspaces.org/schema/9.1/remoting/openspaces-remoting.xsd
+       http://www.openspaces.org/schema/sla http://www.openspaces.org/schema/sla/8.0/openspaces-sla.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+    <bean id="propertiesConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:kafka.properties</value>
+            </list>
+        </property>
+    </bean>
+    
+    <context:annotation-config/>
+
+	<bean id="kafkaConnection" class="org.kafka.persistence.KafkaConnection"></bean>
+    <bean id="kafkaSpaceSynchronizationEndpoint" class="org.kafka.persistence.KafkaSpaceSynchronizationEndpoint">
+    	<!-- <property name="kafkaConnection" ref="KafkaConnection"></property> -->
+    </bean>
+
+    <!--
+        The mirror space. Uses the Kafka external data source. Persists changes done on the Space that
+        connects to this mirror space into the Kafka.
+    -->
+    <os-core:mirror id="mirror" url="/./mirror-service" space-sync-endpoint="kafkaSpaceSynchronizationEndpoint" operation-grouping="group-by-replication-bulk">
+        <os-core:source-space name="PriceSpace" partitions="1" backups="1"/>
+    </os-core:mirror>
+
+</beans>

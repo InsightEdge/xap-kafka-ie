@@ -1,0 +1,131 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.gigaspaces</groupId>
+  <artifactId>parent</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>parent</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<spring.version>4.1.1.RELEASE</spring.version>
+	<gs.version>12.0.0</gs.version>
+  </properties>
+
+  <dependencies>
+        <dependency>
+            <groupId>org.gigaspaces</groupId>
+            <artifactId>xap-openspaces</artifactId>
+            <version>${gs.version}</version>
+            <scope>provided</scope>
+        </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>4.1.1.RELEASE</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.gigaspaces</groupId>
+            <artifactId>xap-openspaces</artifactId>
+            <version>12.1.0-m22</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>4.1.1.RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+        
+<!--  start by rajiv to avoid error -->        
+		<dependency>
+		    <groupId>javassist</groupId>
+		    <artifactId>javassist</artifactId>
+		    <version>3.12.0.GA</version>
+		</dependency>
+  </dependencies>
+  
+  
+    <profiles>
+        <profile>
+            <id>IDE</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <dependencies>
+                <dependency>
+                    <groupId>org.gigaspaces</groupId>
+                    <artifactId>xap-openspaces</artifactId>
+                    <version>12.1.0-m22</version>
+                    <scope>compile</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.springframework</groupId>
+                    <artifactId>spring-orm</artifactId>
+                    <version>4.1.1.RELEASE</version>
+                    <scope>compile</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>Default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <!-- Align spring versions for all projects using openspaces -->
+            <dependencyManagement>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.gigaspaces</groupId>
+                        <artifactId>xap-openspaces</artifactId>
+                        <version>12.1.0-m22</version>
+                        <type>pom</type>
+                        <scope>import</scope>
+                    </dependency>
+                </dependencies>
+            </dependencyManagement>
+        </profile>
+    </profiles>
+  
+    <build>
+    <plugins>
+      <plugin>
+        <!-- NOTE: We don't need a groupId specification because the group is
+             org.apache.maven.plugins ...which is assumed by default.
+         -->
+        <artifactId>maven-assembly-plugin</artifactId>
+        <version>3.0.0</version>
+        <configuration>
+          <descriptorRefs>
+            <descriptorRef>jar-with-dependencies</descriptorRef>
+          </descriptorRefs>
+        </configuration>
+      </plugin>
+    </plugins>
+    </build>
+  
+  <modules>
+  	<module>common</module>
+  	<module>feeder</module>
+  	<module>miror</module>
+  	<module>kafka-persistence</module>
+  	<module>price-space</module>
+  </modules>
+</project>
