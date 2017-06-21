@@ -1,5 +1,5 @@
 # xap-kafka-ie
-Feeder --> Grid --> mirror --> Kafka --> IE --> Grid
+Feeder --> Grid --> mirror --> Kafka --> InsightEdge --> Grid
 
 steps to run demo on windows machine
 1. .\sbin\insightedge.cmd --mode demo
@@ -10,3 +10,10 @@ steps to run demo on windows machine
 6. deploy mirro.jar
 7. open Spark Streaming Kafka Access in browser using <Ipaddress:8090> "run all paragraphs"
 8. open gs-ui --> go to pricespace // it will keep adding price data
+
+
+// list topics
+.\bin\windows\kafka-topics.bat --list -zookeeper localhost:2181 
+
+// send message from command line
+.\bin\windows\kafka-console-producer.bat --broker-list localhost:9092 --topic priceFeed
