@@ -7,6 +7,7 @@ Go to Insight home directory
 2.  .\datagrid\bin\gs-ui.bat
 
 Go to Kakka home directory
+
 3.  .\bin\windows\zookeeper-server-start.bat config/zookeeper.properties // start Zookeeper server
 4.  .\bin\windows\kafka-server-start.bat config/server.properties // start kafka server
 5.  .\bin\windows\kafka-console-consumer.bat --bootstrap-server localhost:9092 --topic priceFeed --from-beginning // start command line consumer to verify feed comming from mirror service
