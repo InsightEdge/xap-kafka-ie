@@ -7,6 +7,7 @@
     <artifactId>parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
+  <groupId>com.gigaspaces</groupId>
   <artifactId>miror</artifactId>
   <version>1.0.0-SNAPSHOT</version>
   <name>miror</name>

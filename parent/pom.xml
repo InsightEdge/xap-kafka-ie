@@ -16,6 +16,8 @@
 	<gs.version>12.0.0</gs.version>
   </properties>
 
+
+
   <dependencies>
         <dependency>
             <groupId>org.gigaspaces</groupId>
@@ -62,7 +64,6 @@
 		</dependency>
   </dependencies>
   
-  
     <profiles>
         <profile>
             <id>IDE</id>
@@ -103,7 +104,6 @@
             </dependencyManagement>
         </profile>
     </profiles>
-  
     <build>
     <plugins>
       <plugin>
@@ -120,12 +120,11 @@
       </plugin>
     </plugins>
     </build>
-  
+        
   <modules>
   	<module>common</module>
   	<module>feeder</module>
   	<module>miror</module>
-  	<module>kafka-persistence</module>
   	<module>price-space</module>
   </modules>
 </project>
