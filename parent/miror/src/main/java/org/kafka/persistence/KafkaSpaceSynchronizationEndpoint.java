@@ -3,6 +3,8 @@ package org.kafka.persistence;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.common.CustomSerializer;
+import org.common.PriceFeed;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -22,6 +24,7 @@ import com.gigaspaces.sync.TransactionData;
 public class KafkaSpaceSynchronizationEndpoint extends SpaceSynchronizationEndpoint {
 
 	Log logger = LogFactory.getLog(this.getClass().getName());
+	CustomSerializer<PriceFeed> customSerializer = new CustomSerializer<PriceFeed>();
 	
     @Autowired
     KafkaConnection kafkaConnection;
@@ -63,8 +66,11 @@ public class KafkaSpaceSynchronizationEndpoint extends SpaceSynchronizationEndpo
 		    	else logger.info("dataSyncOperation="+obj.toString());
 		    	if (kafkaConnection == null) logger.error("kafkaConnection is null");
 		    	if (kafkaConnection.getProducer() == null) logger.error("kafkaConnection.getProducer() is null");
+		    	if (customSerializer == null) logger.error("customSerializer is null");
 		    	
-		    	kafkaConnection.getProducer().send(new ProducerRecord<String, String>(KafkaConnection.topicName,obj.toString()));
+		    	//kafkaConnection.getProducer().send(new ProducerRecord<String, String>(KafkaConnection.topicName,obj.toString()));
+		    	kafkaConnection.getProducer().send(new ProducerRecord<String, byte[]>(KafkaConnection.topicName, customSerializer.serialize(KafkaConnection.topicName,(PriceFeed)obj)));
+		    	//kafkaConnection.getProducer().send(new ProducerRecord<String, PriceFeed>(KafkaConnection.topicName, (PriceFeed)obj));
 		    	logger.info("Message sent successfully");
 		    } catch (Exception e) {
 		        logger.error("Exception during Kafka protocol object creation. This data operation will not be persisted", e);

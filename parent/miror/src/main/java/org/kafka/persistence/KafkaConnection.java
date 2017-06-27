@@ -10,10 +10,10 @@ import org.apache.kafka.clients.producer.Producer;
 public class KafkaConnection {
 
 	Log logger = LogFactory.getLog(this.getClass().getName());
-	Producer<String, String> producer = null;
+	Producer<String, byte[]> producer = null;
 	static final String topicName = "priceFeed";
 	
-	public Producer<String, String> getProducer() {
+	public Producer<String, byte[]> getProducer() {
 		if (producer == null) {
 			createProducer();
 		}
@@ -53,8 +53,9 @@ public class KafkaConnection {
 
 				props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 
-				props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-				producer = new KafkaProducer <String, String>(props);
+				//props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+				props.put("value.serializer", "org.common.CustomSerializer");
+				producer = new KafkaProducer <String, byte[]>(props);
 				logger.info("producer created for topicName="+topicName);
 			} catch (Exception e) {
 				logger.info("Problem creating producer for topicName="+topicName);
