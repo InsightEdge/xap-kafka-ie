@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 
 
-echo -n "Rebuild spark-job (y/n): "
-read  -t 5 toBuild
-
-if [ "$toBuild" = "y" ]; then
-    cd /code/xap-kafka-ie/parent
-    mvn clean package -pl spark-job
-#    mvn clean package
-fi
+#echo -n "Rebuild spark-job (y/n): "
+#read  -t 5 toBuild
+#
+#if [ "$toBuild" = "y" ]; then
+#    cd /code/xap-kafka-ie/parent
+#    mvn clean package -pl spark-job
+##    mvn clean package
+#fi
 
 
 $INSIGHTEDGE_HOME/bin/insightedge-submit \

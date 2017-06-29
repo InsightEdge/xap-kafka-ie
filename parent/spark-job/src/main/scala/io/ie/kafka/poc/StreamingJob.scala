@@ -17,7 +17,7 @@ object StreamingJob {
     val (brokers, topics) = "localhost:9092" -> "priceFeed"
 
     val gsConfig = InsightEdgeConfig("insightedge-space", Some("insightedge"), Some("127.0.0.1:4174"))
-    val sparkConf = new SparkConf().setAppName("sample-app").setMaster("spark://127.0.0.1:7077")
+    val sparkConf = new SparkConf().setAppName("Kafka2Grid").setMaster("spark://127.0.0.1:7077")
     gsConfig.populateSparkConf(sparkConf)
     val sc = new SparkContext(sparkConf)
     val ssc = new StreamingContext(sc, Seconds(10))
@@ -31,8 +31,9 @@ object StreamingJob {
     messages.foreachRDD(rdd =>
       if (!rdd.isEmpty) {
         val count = rdd.count.toInt
+        println("-------------------------")
         println("count received " + count)
-        rdd.take(10).foreach(println)
+        rdd.take(1).foreach(println)
         rdd.values.saveToGrid()
       }
     )

@@ -1,0 +1,140 @@
+﻿{
+  "paragraphs": [
+    {
+      "title": "Required Dependencies",
+      "text": "%dep\n\nz.load(\"org.apache.spark:spark-streaming-kafka_2.10:jar:1.6.0\")\nz.load(\"org.apache.kafka:kafka_2.10:jar:0.10.2.1\")\n\n//z.load(\"C:/WorkspaceMain/xapmirror-kafka/parent/common/target/common-1.0.0-SNAPSHOT.jar\")\n//z.load(\"C:/WorkspaceMain/xapmirror-kafka/parent/decoder/target/decoder-1.0.0-SNAPSHOT.jar\")\nz.load(\"/code/xap-kafka-ie/parent/common/target/common-1.0.0-SNAPSHOT.jar\")\nz.load(\"/code/xap-kafka-ie/parent/decoder/target/decoder-1.0.0-SNAPSHOT.jar\")\n",
+      "dateUpdated": "2017-06-30T02:00:29+0300",
+      "config": {
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "title": true,
+        "graph": {
+          "mode": "table",
+          "height": 300,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1498774608877_323967075",
+      "id": "20160830-145728_362255206",
+      "dateCreated": "2017-06-30T01:16:48+0300",
+      "dateStarted": "2017-06-30T01:58:44+0300",
+      "dateFinished": "2017-06-30T01:58:51+0300",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:3513",
+      "errorMessage": "",
+      "focus": true
+    },
+    {
+      "text": "%spark\n\nimport kafka.serializer.StringDecoder\n\nimport org.apache.spark.streaming.{Seconds, StreamingContext}\nimport org.apache.spark.streaming.kafka.KafkaUtils\n\nimport org.common.PriceFeed\nimport org.kafka.decoder.PriceFeedStreamDecoder\n\n\nval ssc = new StreamingContext(sc, Seconds(10))\n//ssc.checkpoint(\"c:/ie-training/tmp\")\nssc.checkpoint(\"/tmp/checkpoint\")\n\nvar topics = Set(\"priceFeed\") \nval kafkaParams = Map(\n    \"metadata.broker.list\" -> \"localhost:9092\",\n    \"auto.offset.reset\" -> \"smallest\"\n)\n\nval messages = KafkaUtils.createDirectStream[String, PriceFeed, StringDecoder, PriceFeedStreamDecoder](ssc, kafkaParams, topics) \n\nmessages.foreachRDD(rdd => \n    if (!rdd.isEmpty) {\n        println(\"------------------------\")\n        val count = rdd.count.toInt\n        println(\"count received \" + count) // displays count received 3966 \n        rdd.take(1).foreach(println)    // this will print all RDD such as (null,PriceFeed [id=A1^1497450614721^14, symbol=A0, price=1.0]) \n        rdd.values.saveToGrid()\n    }\n)\n\nssc.start ",
+      "dateUpdated": "2017-06-30T01:59:49+0300",
+      "config": {
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1498774608878_325121322",
+      "id": "20170614-111940_344094011",
+      "dateCreated": "2017-06-30T01:16:48+0300",
+      "dateStarted": "2017-06-30T01:59:49+0300",
+      "dateFinished": "2017-06-30T02:00:02+0300",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:3514",
+      "errorMessage": "",
+      "focus": true
+    },
+    {
+      "text": "%spark\n\nssc.stop(stopSparkContext=false, stopGracefully=true)\n",
+      "dateUpdated": "2017-06-30T02:00:57+0300",
+      "config": {
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1498774608878_325121322",
+      "id": "20160830-170845_1145510546",
+      "dateCreated": "2017-06-30T01:16:48+0300",
+      "dateStarted": "2017-06-30T02:00:57+0300",
+      "dateFinished": "2017-06-30T02:01:10+0300",
+      "status": "FINISHED",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:3515",
+      "errorMessage": "",
+      "focus": true
+    },
+    {
+      "dateUpdated": "2017-06-30T01:16:48+0300",
+      "config": {
+        "colWidth": 12,
+        "editorMode": "ace/mode/scala",
+        "graph": {
+          "mode": "table",
+          "height": 300,
+          "optionOpen": false,
+          "keys": [],
+          "values": [],
+          "groups": [],
+          "scatter": {}
+        },
+        "enabled": true
+      },
+      "settings": {
+        "params": {},
+        "forms": {}
+      },
+      "jobName": "paragraph_1498774608878_325121322",
+      "id": "20160830-165856_475845132",
+      "dateCreated": "2017-06-30T01:16:48+0300",
+      "status": "READY",
+      "errorMessage": "",
+      "progressUpdateIntervalMs": 500,
+      "$$hashKey": "object:3516"
+    }
+  ],
+  "name": "Spark Streaming Kafka Access Fixed",
+  "id": "2CNFZB6E4",
+  "angularObjects": {
+    "2CMHTH72N:shared_process": [],
+    "2CNV47127:shared_process": []
+  },
+  "config": {
+    "looknfeel": "default"
+  },
+  "info": {}
+}

@@ -9,14 +9,14 @@
     <packaging>pom</packaging>
 
     <name>parent</name>
-    <url>http://maven.apache.org</url>
 
     <modules>
         <module>common</module>
         <module>feeder</module>
-        <module>miror</module>
+        <module>mirror</module>
         <module>price-space</module>
         <module>spark-job</module>
+        <module>decoder</module>
     </modules>
 
     <properties>
