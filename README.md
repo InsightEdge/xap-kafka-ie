@@ -19,3 +19,25 @@ Go to Kakka home directory
 10.  .\bin\windows\kafka-topics.bat --list -zookeeper localhost:2181 // list topics
 11.  .\bin\windows\kafka-console-producer.bat --broker-list localhost:9092 --topic priceFeed // send message from command line
 12.  .\bin\windows\kafka-topics.bat --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic priceFeed // create topic
+
+For unix:
+
+cd $INSIGHTEDGE_HOME
+./sbin/insightedge.sh --mode demo
+./datagrid/bin/gs-ui.sh
+
+cd $KAFKA_HOME
+    // start Zookeeper server
+./bin/zookeeper-server-start.sh config/zookeeper.properties
+    // start kafka server
+./bin/kafka-server-start.sh config/server.properties
+    // start command line consumer to verify feed comming from mirror service
+./bin/kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic priceFeed --from-beginning
+ 
+./bin/kafka-console-consumer.sh --zookeeper localhost:2181 --topic priceFeed --from-beginning
+ 
+    // list topics
+./bin/kafka-topics.sh --list -zookeeper localhost:2181
+
+    // create topic
+./bin/kafka-topics.sh --create --zookeeper localhost:2181 --replication-factor 1 --partitions 1 --topic priceFeed
