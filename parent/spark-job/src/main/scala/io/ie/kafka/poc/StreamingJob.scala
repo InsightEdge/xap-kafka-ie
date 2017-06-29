@@ -14,8 +14,6 @@ object StreamingJob {
 
   def main(args: Array[String]) {
 
-//    StreamingExamples.setStreamingLogLevels()
-
     val (brokers, topics) = "localhost:9092" -> "priceFeed"
 
     val gsConfig = InsightEdgeConfig("insightedge-space", Some("insightedge"), Some("127.0.0.1:4174"))
@@ -28,19 +26,16 @@ object StreamingJob {
     val kafkaParams: Map[String, String] = Map[String, String]("metadata.broker.list" -> brokers)
 
     val messages: InputDStream[(String, PriceFeed)] = KafkaUtils.createDirectStream[String, PriceFeed, StringDecoder, PriceFeedStreamDecoder](
-            ssc, kafkaParams, topicsSet)
+      ssc, kafkaParams, topicsSet)
 
     messages.foreachRDD(rdd =>
       if (!rdd.isEmpty) {
         val count = rdd.count.toInt
-        println("count received " + count) // displays count received 3966
-        rdd.take(10).foreach(println)    // this will print all RDD such as (null,PriceFeed [id=A1^1497450614721^14, symbol=A0, price=1.0])
+        println("count received " + count)
+        rdd.take(10).foreach(println)
         rdd.values.saveToGrid()
       }
     )
-
-    //    val messages: InputDStream[(String, String)] = KafkaUtils.createDirectStream[String, String, StringDecoder, StringDecoder](
-//      ssc, kafkaParams, topicsSet
 
     // Start the computation
     ssc.start()

@@ -24,23 +24,3 @@ class PriceFeedStreamDecoder(props: VerifiableProperties = null) extends Decoder
   }
 }
 
-
-/**
-  * @author Danylo_Hurin.
-  */
-//class PriceFeedDecoder(props: VerifiableProperties = null) extends Decoder[PriceFeed] {
-//  override def fromBytes(bytes: Array[Byte]): PriceFeed = {
-//    println("Decoding: " + bytes)
-//    val p = new PriceFeed()
-//    p.setId("id")
-//    p.setPrice(1.0f)
-//    p.setSymbol("A")
-//    println(p)
-//    println("Classloader of PriceFeed: " + classOf[PriceFeed].getClassLoader)
-//    println("Classloader of SerializationUtils: " + classOf[SerializationUtils].getClassLoader)
-//    val v: PriceFeed = SerializationUtils.deserialize[PriceFeed](bytes)
-//    println("Decoded: " + v)
-//    v
-//  }
-//}
-
