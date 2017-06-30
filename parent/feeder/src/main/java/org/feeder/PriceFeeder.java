@@ -24,8 +24,12 @@ public class PriceFeeder {
         try {
             for (int i = 0; i < 2; i++) {
                 PriceFeed priceFeed = new PriceFeed();
-                priceFeed.setSymbol("A" + i);
-                priceFeed.setPrice(counter++ * 1.0f);
+	    		priceFeed.setSymbol("A"+i);
+	    		priceFeed.setTradePrice(counter++ * 1.0f);
+	    		priceFeed.setBidPrice(priceFeed.getTradePrice()-.2f);
+	    		priceFeed.setBidSize(100);
+	    		priceFeed.setAskPrice(priceFeed.getTradePrice()+.2f);
+	    		priceFeed.setAskSize(200);
                 gigaPriceSpace.write(priceFeed, 30000000);
                 System.out.println("PriceFeeder writtern to space for i=" + i + ", counter=" + counter);
             }
